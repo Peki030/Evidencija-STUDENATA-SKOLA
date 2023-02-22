@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="color:white">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/korisnici">Studentska Evidencija</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href={{ url_for("studenti") }}>Studenti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href={{ url_for("predmeti") }}>Predmeti</a>
+                </li>
+
+                {% if(rola == 'admin') %}
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("korisnici") }}>Korisnici </a>
+                </li>
+                {% endif %}
+
+            </ul>
+            <form class="d-flex">
+                <a href={{ url_for('logout') }} class="btn btn-primary btn-lg"><i class="fas fa-sign-out-alt"></i></a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="mt-5 mb-0 d-flex gap-2 justify-content-end">
+
+        {% if(rola == 'admin') %}
+        <a href={{ url_for("dodajpredmet") }} role="button" class="btn btn-primary justify-content-end">Dodaj
+            predmet</a>
+
+        <a href={{ url_for('export', tip="predmeti" ) }} role="button" class="btn btn-success mr-3">Export podataka</a>
+        {% endif %}
+    </div>
+
+
+    <!-- TABELA -->
+    <div class="row mt-5">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">sifra</th>
+                    <th scope="col">naziv</th>
+                    <th scope="col">godina studija</th>
+                    <th class="col">espb</th>
+                    <th scope="col">status</th>
+                    {% if(rola == 'admin') %}
+                    <th scope="col">akcije</th>
+                    {%endif%}
+                </tr>
+            </thead>
+            <tbody>
+                {% for predmet in predmeti %}
+                <tr>
+
+                    <td>{{ predmet.sifra }}</td>
+                    <td>{{ predmet.naziv }}</td>
+                    <td>{{ predmet.god_studija }}</td>
+                    <td>{{ predmet.espb }}</td>
+                    <td>{{ predmet.status }}</td>
+                    {% if(rola == 'admin') %}
+                    <td style="display: flex; flex-direction: row;">
+
+                        <a href={{ url_for("izmenipredmet", id=predmet.id ) }} role="button" class="text-warning mx-1">
+                            <i class="far fa-edit"></i>
+                        </a>
+
+                        <form action={{ url_for("izbrisipredmet", id=predmet.id) }} method="POST"
+                            class="text-danger mx-1" style="background-color: transparent;">
+                            <button class="text-danger mx-1" style=" border: none; background:transparent;">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

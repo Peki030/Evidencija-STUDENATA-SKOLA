@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="color:white">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/korisnici">Studentska Evidencija</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href={{ url_for("studenti") }}>Studenti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("predmeti") }}>Predmeti</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link active" href={{ url_for("korisnici") }}>Korisnici </a>
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <a href={{ url_for('logout') }} class="btn btn-primary btn-lg"><i class="fas fa-sign-out-alt"></i></a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+
+    <div class="mt-5 mb-0 d-flex gap-2 justify-content-end">
+
+        <a href={{ url_for("dodajkorisnika") }} role="button" class="btn btn-primary justify-content-end">Dodaj
+            korisnika</a>
+
+        <a href={{ url_for('export', tip="korisnici" ) }} role="button" class="btn btn-success mr-3">Export podataka</a>
+    </div>
+
+
+
+    <!-- TABELA -->
+    <div class="row">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="col">id</th>
+                    <th scope="col">Ime</th>
+                    <th scope="col">Prezime</th>
+                    <th scope="col">Email</th>
+                    <th class="col">Rola</th>
+                    <th scope="col">Akcija</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for korisnik in korisnici %}
+                <tr>
+                    <th scope="row">{{korisnik.id}}</th>
+                    <td>{{korisnik.ime}}</td>
+                    <td>{{korisnik.prezime}}</td>
+                    <td>{{korisnik.email}}</td>
+                    <td>{{korisnik.rola}}</td>
+                    <td style="display: flex; flex-direction: row;">
+                        <a href={{ url_for("izmenikorisnika", id=korisnik.id ) }} role="button"
+                            class="text-warning mx-1">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <form action={{ url_for("izbrisikorisnika", id=korisnik.id) }} method="POST"
+                            class="text-danger mx-1" style="background-color: transparent;">
+                            <button class="text-danger mx-1" style=" border: none; background:transparent;">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<nav>
+    <ul class="pagination justify-content-center mt-3">
+        <li class="page-item {% if strana=='1' %} disabled {% endif %}">
+            <a class="page-link" href={{ prethodna_strana }}>Prethodna</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">{{ strana }}</a></li>
+        <li class="page-item">
+            <a class="page-link" href={{ sledeca_strana }}>Sledeca</a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}
