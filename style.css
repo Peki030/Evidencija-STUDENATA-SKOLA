@@ -1,0 +1,58 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+img {
+	max-width: 100%;
+}
+
+.student_slika {
+	width: 30% !important;
+}
+
+.dodajslikubtn {
+	height: min-content !important;
+}
+
+.korisnik-p {
+	font-size: 2em;
+	font-weight: bold;
+	margin-bottom: .5em !important;
+}
+
+.korisnik-input label {
+	font-weight: bold;
+	margin-top: 1em !important;
+}
+
+/* table:nth-child(even) {
+	background-color: gray !important;
+} */
+
+button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+table,
+.prvi-th {
+	border: hidden;
+}
+
+.sort {
+	font-size: .8em;
+	margin-left: .5em;
+	/* display: flex; */
+	/* justify-content: center; */
+	/* align-items: center; */
+	/* flex-direction: row; */
+	/* background-color: rebeccapurple; */
+	color: #0d6efd;
+}
